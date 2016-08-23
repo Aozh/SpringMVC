@@ -1,6 +1,8 @@
 package com.gaussic.controller;
 
+import com.gaussic.model.PermissionEntity;
 import com.gaussic.model.UserEntity;
+import com.gaussic.repository.PermissionRepository;
 import com.gaussic.repository.UserRepository;
 import com.sun.xml.internal.ws.api.server.Module;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import com.gaussic.model.UserEntity;
@@ -30,23 +31,41 @@ public class MainController {
     // 自动装配数据库接口，不需要再写原始的Connection来操作数据库
     @Autowired
     UserRepository userRepository;
-
+    @Autowired
+    PermissionRepository permission;
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index() {
         return "index";
     }
 
-//    @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
-//    public String getUsers(ModelMap modelMap){
-//        List<UserEntity> userList = userRepository.findAll();
-//        if(userList.size()==1){
-//            //登陆成功
+        @RequestMapping(value="/admin/users/addPermission",method = RequestMethod.GET)
+    public String addPermission(ModelMap modelMap ){
+
+        List<PermissionEntity> permissionList = permission.findAll();
+       modelMap.addAttribute("permissionList", permissionList);
+
+        return "admin/addM";
+    }
+    @RequestMapping(value="/admin/users/addPermission1",method = RequestMethod.POST)
+    public String addPermission1(@RequestParam("cbox") int[] per, ModelMap modelMap,HttpServletRequest request){
+
+       // httpServletRequest.getParameterValues();
+       List<PermissionEntity> permissionList = permission.findAll();
+        //request.getParameterValues();
+
+
+         modelMap.addAttribute("permissionList", permissionList);
+
+        return "admin/addM1";
+    }
+//    @RequestMapping(value = "/admin/users/addM1", method = RequestMethod.POST)
+//    public String savePerssion(@ModelAttribute("user") PermissionEntity permission) {
 //
-//            return "index";
-//        }else{
-//            //登陆失败
-//            return "admin/test";
-//        }
+//
+//      permission.saveAndFlush(permission);
+//
+//
+//        return "redirect:/admin/addM";
 //    }
        @RequestMapping(value="/admin/users",method=RequestMethod.GET)
        public  String getUsers(ModelMap modelMap){
@@ -54,20 +73,7 @@ public class MainController {
            modelMap.addAttribute("userList", userList);
            return "admin/users";
        }
-//
-//        @RequestMapping(value = "/admin/users", method = RequestMethod.GET)
-//    public String getUsers(ModelMap modelMap) {
-//        // 查询user表中所有记录
-//        List<UserEntity> userList = userRepository.findAll();
-//
-//        // 将所有记录传递给要返回的jsp页面，放在userList当中
-//        modelMap.addAttribute("userList", userList);
-//       // if(3>0){return "index";}
-//
-//        // 返回pages目录下的admin/users.jsp页面
-//        return "admin/users";
-//    }
-//get请求，访问添加用户 页面
+
     @RequestMapping(value = "/admin/users/add", method = RequestMethod.GET)
     public String addUser() {
         // 转到 admin/addUser.jsp页面
@@ -77,13 +83,7 @@ public class MainController {
     // post请求，处理添加用户请求，并重定向到用户管理页面
     @RequestMapping(value = "/admin/users/addP", method = RequestMethod.POST)
     public String addUserPost(@ModelAttribute("user") UserEntity userEntity) {
-        // 注意此处，post请求传递过来的是一个UserEntity对象，里面包含了该用户的信息
-        // 通过@ModelAttribute()注解可以获取传递过来的'user'，并创建这个对象
 
-        // 数据库中添加一个用户，该步暂时不会刷新缓存
-        //userRepository.save(userEntity);
-
-        // 数据库中添加一个用户，并立即刷新缓存
         userRepository.saveAndFlush(userEntity);
 
         // 重定向到用户管理页面，方法为 redirect:url

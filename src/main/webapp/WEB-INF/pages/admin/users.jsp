@@ -28,6 +28,7 @@
     <hr/>
 
     <h3>所有用户 <a href="/admin/users/add" type="button" class="btn btn-primary btn-sm">添加</a></h3>
+    <h4>权限管理 <a href="/admin/users/addPermission" type="button" class="btn btn-primary btn-sm">添加</a></h4>
 
     <!-- 如果用户列表为空 -->
     <c:if test="${empty userList}">
