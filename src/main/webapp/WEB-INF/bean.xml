@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- 配置Chinese实例，其实现类是Chinese -->
+    <bean id="chinese" class="com.XmlBeanTest.Chinese">
+        <!-- 将appl注入给food属性 -->
+        <property name="food" ref="appl" />
+        <property name="name" value="苹果"/>
+    </bean>
+
+
+    <!-- 配置apple实例 -->
+    <bean id="appl" class="com.XmlBeanTest.Apple" />
+</beans>

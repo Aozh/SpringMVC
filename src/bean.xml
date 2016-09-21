@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+         http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <!-- 配置Chinese实例，其实现类是Chinese -->
+    <bean id="chinese" class="com.XmlBeanTest.Chinese">
+        <!-- 将appl注入给food属性 -->
+        <property name="food" ref="appl" />
+        <property name="name" value="苹果"/>
+    </bean>
+    <bean id="jap" class="com.XmlBeanTest.Jap">
+        <!-- 将appl注入给food属性 -->
+        <constructor-arg ref="appl"/>
+    </bean>
+
+
+    <!-- 扫描指定包（将 @Component 注解的类自动定义为 Spring Bean） -->
+    <context:component-scan base-package="com.AutoAOP"/>
+
+    <!-- 配置一个代理 -->
+    <bean id="greetingProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="interfaces" value="com.AutoAOP.Greeting"/> <!-- 需要代理的接口 -->
+        <property name="target" ref="greetingImpl"/>       <!-- 接口实现类 -->
+        <property name="interceptorNames" value="greetingAroundAdvice"/> <!-- 注意这行配置 -->
+    </bean>
+
+    <!-- 配置apple实例 -->
+    <bean id="appl" class="com.XmlBeanTest.Apple" />
+</beans>

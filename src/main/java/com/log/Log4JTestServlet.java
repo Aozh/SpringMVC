@@ -30,9 +30,7 @@ public class Log4JTestServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * @see Servlet#init(ServletConfig)
-     */
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         // TODO Auto-generated method stub

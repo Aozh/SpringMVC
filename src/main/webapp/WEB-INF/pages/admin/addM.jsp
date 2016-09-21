@@ -30,11 +30,11 @@
 
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <script>
-        function getCheckbox(){
-            var hbox = document.mysub("cbox");
-            var value;
-            for (i=0; i<hbox.length; i++){
-                hbox[i].value=hbox[i].checked;
+        function getCheckbox(){alert(cbox);
+//            var hbox = document.mysub("cbox");
+//            var value;
+//            for (i=0; i<hbox.length; i++){
+//                hbox[i].value=hbox[i].checked;
 //                if (hbox[i].checked){
 //                    if (!value){
 //                        value = hbox[i].value;
@@ -42,11 +42,12 @@
 //                        value += "," + hbox[i].value;
 //                    }
 //                }
-            }
+//            }
 
            // alert(value == undefined ? '' : value);
         }
     </script>
+    <script>function displayResult(){alert("职位")} </script>
 </head>
 <body>
 <div class="container">
@@ -81,7 +82,7 @@
                       String[] x=request.getParameterValues(cbox);
                     <td>
 
-                            <input type="submit" value="保存" >
+                            <input type="submit" value="保存" onclick="getCheckbox()">
                        <%--onclick="javascript:mysub()"--%>
                         </form>
                                                     </td>
